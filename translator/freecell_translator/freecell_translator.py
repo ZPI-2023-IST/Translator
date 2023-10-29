@@ -1,6 +1,26 @@
-from constants import NO_CARD, CARD_SUITS, CARD_VALUES, NUMBER_OF_CARDS, CARDS_SOURCE, CARDS_DEST
+from ..abstract_translator.abstract_translator import AbstractTranslator
+from .constants import NO_CARD, CARD_SUITS, CARD_VALUES, NUMBER_OF_CARDS, CARDS_SOURCE, CARDS_DEST
 
 import numpy as np
+
+class FreecellTranslator(AbstractTranslator):
+    def convert_game_output_to_model_input(game_output):
+        board, free_cells, heap = game_output
+
+        board = convert_board_to_array_of_one_hot_encoded_values(board)
+        free_cells = convert_free_cells_to_array_of_one_hot_encoded_values(free_cells)
+        heap = convert_heap_to_array_of_one_hot_encoded_values(heap)
+
+        return board, free_cells, heap
+
+    def convert_model_output_to_game_input(game_output, model_output):
+        board, free_cells, _ = game_output
+        vector_no_cards, vector_source, vector_dest = model_output
+
+        source_card = get_source_card(board, free_cells, vector_no_cards, vector_source)
+        dest_card = get_dest_card(board, vector_dest)
+
+        return source_card, dest_card
 
 # Convert given card to one hot encoded vector e.g. 7C = 01000000001000000
 # Every digit is stored as a separate value in the array
@@ -34,13 +54,6 @@ def convert_heap_to_array_of_one_hot_encoded_values(heap):
 
     return array_one_hot_encoded
 
-def convert_game_output_to_model_input(board, free_cells, heap):
-    board = convert_board_to_array_of_one_hot_encoded_values(board)
-    free_cells = convert_free_cells_to_array_of_one_hot_encoded_values(free_cells)
-    heap = convert_heap_to_array_of_one_hot_encoded_values(heap)
-
-    return board, free_cells, heap
-
 # Get the card that should be moved for game input
 def get_source_card(board, free_cells, vector_no_cards, vector_source):
     no_cards_move = NUMBER_OF_CARDS[''.join(map(str, vector_no_cards))]
@@ -71,10 +84,3 @@ def get_dest_card(board, vector_dest):
             return board[no_col_dest][-1]
     else:
         raise Exception("Illegal destination")
-
-
-def convert_model_output_to_game_input(board, free_cells, vector_no_cards, vector_source, vector_dest):
-    source_card = get_source_card(board, free_cells, vector_no_cards, vector_source)
-    dest_card = get_dest_card(board, vector_dest)
-
-    return source_card, dest_card
