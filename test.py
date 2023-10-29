@@ -56,13 +56,8 @@ test_destination = [
     0,
 ]
 
-game_output = (test_board, test_freecells, test_heap)
-model_output = (test_no_cards, test_source, test_destination)
+a = FreecellTranslator.convert_game_output_to_model_input(test_board, test_freecells, test_heap)
 
-FreecellTranslator()
-
-a = FreecellTranslator.convert_game_output_to_model_input(game_output)
-
-d = FreecellTranslator.convert_model_output_to_game_input(game_output, model_output)
+d = FreecellTranslator.convert_model_output_to_game_input(test_board, test_freecells, test_no_cards, test_source, test_destination)
 
 print(d)
