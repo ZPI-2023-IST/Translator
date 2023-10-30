@@ -1,26 +1,45 @@
 from translator.freecell_translator.freecell_translator import FreecellTranslator
 
-test_board = [
-    ["AH", "2H"],
-    ["3S", "4S", "5S", "6S", "9C", "10C", "BC", "QC", "KC"],
-    [],
-    ["7C", "8C"],
-    [],
-    ["AD"],
-    [],
-    []
-]
+class Game:
+    def __init__(self):
+        self.board = [
+            ["AH", "2H"],
+            ["3S", "4S", "5S", "6S", "9C", "10C", "BC", "QC", "KC"],
+            [],
+            ["7C", "8C"],
+            [],
+            ["AD"],
+            [],
+            []
+        ]
 
-test_freecells = [
-    "9S",
-]
+        self.freecells = [
+            "9S"
+        ]
 
-test_heap = [
-    "AC",
-    "AS"
-]
+        self.heap = [
+            "AC",
+            "AS"
+        ]
 
-test_no_cards = [
+
+    def make_move(self, move):
+        pass
+
+    def get_moves(self):
+        return [("2H", "0"), ("KC", "0")]
+
+
+    def get_board(self):
+        return self.board, self.freecells, self.heap
+
+    def get_state(self):
+        return "Active"
+        
+    def start_game(self):
+        pass
+
+ml_no_cards = [
     0,
     1,
     0,
@@ -28,7 +47,7 @@ test_no_cards = [
     0
 ]
 
-test_source = [
+ml_src = [
     1,
     0,
     0,
@@ -43,7 +62,7 @@ test_source = [
     0,
 ]
 
-test_destination = [
+ml_dst = [
     0,
     0,
     0,
@@ -56,8 +75,10 @@ test_destination = [
     0,
 ]
 
-a = FreecellTranslator.convert_game_output_to_model_input(test_board, test_freecells, test_heap)
-
-d = FreecellTranslator.convert_model_output_to_game_input(test_board, test_freecells, test_no_cards, test_source, test_destination)
-
-print(d)
+game = Game()
+fc_translator = FreecellTranslator(game)
+fc_translator.make_move(ml_no_cards, ml_src, ml_dst)
+print(fc_translator.get_moves())
+print(fc_translator.get_board())
+print(fc_translator.get_state())
+fc_translator.start_game()
