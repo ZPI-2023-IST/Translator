@@ -64,3 +64,53 @@ def get_dest_card(board, vector_dest):
             return board[no_col_dest][-1]
     else:
         raise Exception("Illegal destination")
+    
+# Return the column where card is located and the number of cards before this card (including this card)
+# Returns None if no card was found
+def find_card_board(board, searched_card):
+    for i, column in enumerate(board, start=1):
+        for j, card in enumerate(reversed(column), start=1):
+            if searched_card == card:
+                return  j, i
+            
+    return None, None
+
+# Return the column where card is located
+# Returns None if no card was found
+def find_card_free_cells(free_cells, searched_card):
+    for i, card in enumerate(free_cells, start=1):
+        if searched_card == card:
+            return  i
+            
+    return None
+
+    
+# Get the location of the source card and the number of cards moved as a vector
+def get_source_card_vector(board, free_cells, src_card):
+    # Iterate through board
+    no_cards_moved, card_location = find_card_board(board, src_card)
+    if card_location is not None:
+        return REV_NUMBER_OF_CARDS[no_cards_moved], REV_CARDS_SOURCE["C" + str(card_location)]
+    
+    # Iterate through free_cells (if card is not on board it will be in free_cells)
+    card_location = find_card_free_cells(free_cells, src_card)
+    return REV_NUMBER_OF_CARDS[1], REV_CARDS_SOURCE["F" + str(card_location)]
+
+# Get the location of the destination card
+def get_dest_card_vector(board, dest_card):
+    if dest_card == "F":
+        return REV_CARDS_DEST["F0"]
+    
+    elif dest_card == "S":
+        return REV_CARDS_DEST["S0"]
+    
+    # There may be more than one free column. We choose the first one that is free
+    elif dest_card == "0":
+        for i, column in enumerate(board, start=1):
+            if column == []:
+                return REV_CARDS_DEST["C" + str(i)]
+            
+    else:
+        _, card_location = find_card_board(board, dest_card)
+        return REV_CARDS_DEST["C" + str(card_location)]
+

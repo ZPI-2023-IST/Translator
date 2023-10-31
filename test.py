@@ -27,7 +27,7 @@ class Game:
         pass
 
     def get_moves(self):
-        return [("2H", "0"), ("KC", "0")]
+        return [("2H", "0"), ("10C", "8C"), ("AD", "F"), ("AD", "S"), ("9S", "0"), ("BC", "AD")]
 
 
     def get_board(self):
@@ -77,8 +77,8 @@ ml_dst = [
 
 game = Game()
 fc_translator = FreecellTranslator(game)
-fc_translator.make_move(ml_no_cards, ml_src, ml_dst)
+#fc_translator.make_move(ml_no_cards, ml_src, ml_dst)
 print(fc_translator.get_moves())
-print(fc_translator.get_board())
-print(fc_translator.get_state())
-fc_translator.start_game()
+#print(fc_translator.get_board())
+#print(fc_translator.get_state())
+#fc_translator.start_game()

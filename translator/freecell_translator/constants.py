@@ -60,3 +60,8 @@ CARDS_DEST = {
     "0000000010": "F0",
     "0000000001": "S0",
 }
+
+# Constants used to translate moves into moves vector
+REV_NUMBER_OF_CARDS = {v:k for k,v in NUMBER_OF_CARDS.items()}
+REV_CARDS_SOURCE = {v:k for k,v in CARDS_SOURCE.items()}
+REV_CARDS_DEST = {v:k for k,v in CARDS_DEST.items()}
