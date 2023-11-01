@@ -38,3 +38,22 @@ class FreecellTranslator(AbstractTranslator):
     
     def start_game(self):
         self.game.start_game()
+
+    def get_reward(self):
+        """
+        Return 1 if game is won, -1 if it's lost, otherwise 0
+        May change
+        """
+
+        state = self.game.get_state()
+
+        if state == "Active":
+            return 0
+        elif state == "Game Won":
+            return 1
+        elif state == "Game Lost":
+            return -1
+        else:
+            raise Exception("Incorrect state")
+        
+

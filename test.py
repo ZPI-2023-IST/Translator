@@ -77,8 +77,9 @@ ml_dst = [
 
 game = Game()
 fc_translator = FreecellTranslator(game)
-#fc_translator.make_move(ml_no_cards, ml_src, ml_dst)
+fc_translator.make_move(ml_no_cards, ml_src, ml_dst)
 print(fc_translator.get_moves())
-#print(fc_translator.get_board())
-#print(fc_translator.get_state())
-#fc_translator.start_game()
+print(fc_translator.get_board())
+print(fc_translator.get_state())
+fc_translator.start_game()
+print(fc_translator.get_reward())

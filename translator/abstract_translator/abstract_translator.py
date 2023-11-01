@@ -38,3 +38,10 @@ class AbstractTranslator(ABC):
         Start game
         """
         pass
+
+    @abstractmethod
+    def get_reward(self):
+        """
+        Get reward for the given board
+        """
+        pass
