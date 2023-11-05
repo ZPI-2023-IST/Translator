@@ -1,3 +1,15 @@
+from enum import Enum
+
+SIZE_BOARD = (8, 19, 17)
+SIZE_FREE_CELL = (4, 17)
+SIZE_HEAP = (4, 17)
+
+class CARD_LOCATIONS(Enum):
+    COLUMN = "C"
+    FREE_CELL = "F"
+    HEAP = "S"
+    EMPTY_COLUMN = "0"
+
 # Constants used to translate game output into model input
 NO_CARD = "00000000000000000"
 
