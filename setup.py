@@ -1,7 +1,7 @@
 import setuptools
 
 setuptools.setup(
-    name="translator",
+    name="Translator FC",
     version="0.0.1",
     author="Patryk, Mateusz, Wiktor, Kamil",
     description="A dedicated translator for Freecell game",
