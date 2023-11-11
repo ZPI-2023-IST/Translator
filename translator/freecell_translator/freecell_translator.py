@@ -1,14 +1,15 @@
 from ..abstract_translator.abstract_translator import AbstractTranslator
 from .functions import *
 
-# WHOLE CLASS TO POTENTIALLY FIX AFTER CONNECTING TO GAME
 class FreecellTranslator(AbstractTranslator):
     def __init__(self, game=None):
         super().__init__(game)
+        # ML vectors mapped to given index
         self.all_moves = self._get_all_moves_dict()
         self.all_moves_rev = {v:k for k,v in self.all_moves.items()}
 
-    def make_move(self, ml_no_cards, ml_src, ml_dst):
+    def make_move(self, ml_output):
+        ml_no_cards, ml_src, ml_dst = self.all_moves_rev[ml_output]
         board, free_cells, _ = self.game.get_board()
 
         src_card = get_source_card(board, free_cells, ml_no_cards, ml_src)
@@ -16,6 +17,7 @@ class FreecellTranslator(AbstractTranslator):
 
         self.game.make_move((src_card, dst_card))
 
+    # Returns list of index of all moves
     def get_moves(self):
         board, free_cells, _ = self.game.get_board()
         moves = self.game.get_moves()
@@ -25,10 +27,13 @@ class FreecellTranslator(AbstractTranslator):
             src_card, dst_card = move
             cards_moved_vector, src_vector = get_source_card_vector(board, free_cells, src_card)
             dst_vector = get_dest_card_vector(board, dst_card)
-            move_vectors.append((cards_moved_vector, src_vector, dst_vector))
+
+            move_id = self.all_moves[(cards_moved_vector, src_vector, dst_vector)]
+            move_vectors.append(move_id)
 
         return move_vectors
 
+    # Our ml model takes one dimensional inputs
     def get_board(self):
         board, free_cells, heap = self.game.get_board()
 
@@ -36,15 +41,16 @@ class FreecellTranslator(AbstractTranslator):
         free_cells = convert_fc_to_ar_ohe(free_cells)
         heap = convert_heap_to_ar_ohe(heap)
 
-        return board, free_cells, heap
+        return np.concatenate((board, free_cells, heap))
 
     def get_state(self):
         return self.game.get_state()
     
+    # To do
     def start_game(self):
-        self.game.start_game()
+        pass
 
-    # TO IMPLEMENT AFTER CONNECTING TO GAME
+    # To do
     def get_reward(self):
         return 0
     

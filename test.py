@@ -1,3 +1,0 @@
-from translator.freecell_translator.freecell_translator import FreecellTranslator
-
-FreecellTranslator()

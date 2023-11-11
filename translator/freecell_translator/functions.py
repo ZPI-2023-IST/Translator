@@ -5,8 +5,8 @@ import numpy as np
 # Convert given card to one hot encoded vector e.g. 7C = 01000000001000000
 # Every digit is stored as a separate value in the array
 def convert_card_to_ohe_vector(card):
-    suit = CARD_SUITS[card[-1]]
-    value = CARD_VALUES[card[:-1]]
+    suit = CARD_SUITS[card.suit]
+    value = CARD_VALUES[card.rank]
     vector = list(map(int, list(suit + value)))
     return vector
 
@@ -18,21 +18,21 @@ def convert_board_to_ar_ohe(board):
         for j, card in enumerate(column):
             array_one_hot_encoded[i][j] = convert_card_to_ohe_vector(card)
 
-    return array_one_hot_encoded
+    return array_one_hot_encoded.flatten()
 
 def convert_fc_to_ar_ohe(free_cell):
     array_one_hot_encoded = np.full(SIZE_FREE_CELL, fill_value=list(map(int, list(NO_CARD))))
     for i, card in enumerate(free_cell):
         array_one_hot_encoded[i] = convert_card_to_ohe_vector(card)
 
-    return array_one_hot_encoded
+    return array_one_hot_encoded.flatten()
 
 def convert_heap_to_ar_ohe(heap):
     array_one_hot_encoded = np.full(SIZE_HEAP, fill_value=list(map(int, list(NO_CARD))))
     for i, card in enumerate(heap):
         array_one_hot_encoded[i] = convert_card_to_ohe_vector(card)
 
-    return array_one_hot_encoded
+    return array_one_hot_encoded.flatten()
 
 # Get the card that should be moved for game input
 def get_source_card(board, free_cells, vector_no_cards, vector_source):
@@ -83,7 +83,6 @@ def find_card_fc(free_cells, searched_card):
             return i
             
     return None
-
     
 # Get the location of the source card and the number of cards moved as a vector
 def get_source_card_vector(board, free_cells, src_card):
@@ -113,4 +112,3 @@ def get_dest_card_vector(board, dest_card):
     else:
         _, card_location = find_card_board(board, dest_card)
         return REV_CARDS_DEST[CARD_LOCATIONS.COLUMN.value + str(card_location)]
-
