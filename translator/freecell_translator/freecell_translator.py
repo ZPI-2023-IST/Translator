@@ -8,8 +8,8 @@ class FreecellTranslator(AbstractTranslator):
         self.all_moves = self._get_all_moves_dict()
         self.all_moves_rev = {v:k for k,v in self.all_moves.items()}
 
-    def make_move(self, ml_output):
-        ml_no_cards, ml_src, ml_dst = self.all_moves_rev[ml_output]
+    def make_move(self, move):
+        ml_no_cards, ml_src, ml_dst = self.all_moves_rev[move]
         board, free_cells, _ = self.game.get_board()
 
         src_card = get_source_card(board, free_cells, ml_no_cards, ml_src)

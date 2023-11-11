@@ -5,7 +5,7 @@ class AbstractTranslator(ABC):
         self.game = game
 
     @abstractmethod
-    def make_move(self):
+    def make_move(self, move):
         """
         Make a move in a game
         """
