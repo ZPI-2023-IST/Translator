@@ -41,7 +41,7 @@ class FreecellTranslator(AbstractTranslator):
         free_cells = convert_fc_to_ar_ohe(free_cells)
         heap = convert_heap_to_ar_ohe(heap)
 
-        return np.concatenate((board, free_cells, heap))
+        return np.concatenate((board, free_cells, heap)).tolist()
 
     def get_state(self):
         return self.game.get_state()

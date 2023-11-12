@@ -5,8 +5,9 @@ import numpy as np
 # Convert given card to one hot encoded vector e.g. 7C = 01000000001000000
 # Every digit is stored as a separate value in the array
 def convert_card_to_ohe_vector(card):
-    suit = CARD_SUITS[card.suit]
-    value = CARD_VALUES[card.rank]
+    card = str(card).upper()
+    suit = CARD_SUITS[card[1]]
+    value = CARD_VALUES[card[0]]
     vector = list(map(int, list(suit + value)))
     return vector
 
@@ -23,14 +24,20 @@ def convert_board_to_ar_ohe(board):
 def convert_fc_to_ar_ohe(free_cell):
     array_one_hot_encoded = np.full(SIZE_FREE_CELL, fill_value=list(map(int, list(NO_CARD))))
     for i, card in enumerate(free_cell):
-        array_one_hot_encoded[i] = convert_card_to_ohe_vector(card)
+        if card is None:
+            array_one_hot_encoded[i] = NO_CARD
+        else:
+            array_one_hot_encoded[i] = convert_card_to_ohe_vector(card)
 
     return array_one_hot_encoded.flatten()
 
 def convert_heap_to_ar_ohe(heap):
     array_one_hot_encoded = np.full(SIZE_HEAP, fill_value=list(map(int, list(NO_CARD))))
     for i, card in enumerate(heap):
-        array_one_hot_encoded[i] = convert_card_to_ohe_vector(card)
+        if card is None:
+            array_one_hot_encoded[i] = NO_CARD
+        else:
+            array_one_hot_encoded[i] = convert_card_to_ohe_vector(card)
 
     return array_one_hot_encoded.flatten()
 
