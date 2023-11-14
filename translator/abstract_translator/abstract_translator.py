@@ -49,6 +49,6 @@ class AbstractTranslator(ABC):
     @abstractmethod
     def get_config_model(self):
         """
-        Get extra parameters for model
+        Get params that can be used later to construct a model
         """
         pass
