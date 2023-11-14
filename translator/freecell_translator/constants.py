@@ -1,5 +1,11 @@
 from enum import Enum
 
+# State of game from FreeCell game
+class State(Enum):
+    ONGOING = 0
+    WON = 1
+    LOST = 2
+
 SIZE_BOARD = (8, 19, 17)
 SIZE_FREE_CELL = (4, 17)
 SIZE_HEAP = (4, 17)

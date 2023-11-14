@@ -45,3 +45,10 @@ class AbstractTranslator(ABC):
         Get reward for the given board
         """
         pass
+
+    @abstractmethod
+    def get_config_model(self):
+        """
+        Get extra parameters for model
+        """
+        pass
