@@ -5,7 +5,7 @@ class AbstractTranslator(ABC):
         self.game = game
 
     @abstractmethod
-    def make_move(self):
+    def make_move(self, move):
         """
         Make a move in a game
         """
@@ -43,5 +43,12 @@ class AbstractTranslator(ABC):
     def get_reward(self):
         """
         Get reward for the given board
+        """
+        pass
+
+    @abstractmethod
+    def get_config_model(self):
+        """
+        Get params that can be used later to construct a model
         """
         pass

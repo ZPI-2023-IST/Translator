@@ -1,5 +1,11 @@
 from enum import Enum
 
+# State of game from FreeCell game
+class State(Enum):
+    ONGOING = 0
+    WON = 1
+    LOST = 2
+
 SIZE_BOARD = (8, 19, 17)
 SIZE_FREE_CELL = (4, 17)
 SIZE_HEAP = (4, 17)
@@ -20,6 +26,7 @@ CARD_SUITS= {
     "H": "0001"
 }
 
+# T - Ten
 CARD_VALUES = {
     "A": "1000000000000",
     "2": "0100000000000",
@@ -30,8 +37,8 @@ CARD_VALUES = {
     "7": "0000001000000",
     "8": "0000000100000",
     "9": "0000000010000",
-    "10": "0000000001000",
-    "B": "0000000000100",
+    "T": "0000000001000",
+    "J": "0000000000100",
     "Q": "0000000000010",
     "K": "0000000000001"
 }
