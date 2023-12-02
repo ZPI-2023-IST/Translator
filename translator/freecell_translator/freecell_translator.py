@@ -100,7 +100,8 @@ class FreecellTranslator(AbstractTranslator):
 
             card_depth_sum = card_depth_sum / MAX_DEPTH_SUM * 5
 
-            return no_cards_heap - card_depth_sum
+            # return no_cards_heap - card_depth_sum
+            return no_cards_heap
     
     def get_config_model(self):
         return self.config_model
