@@ -22,6 +22,9 @@ class FreecellTranslator(AbstractTranslator):
         src_card = get_source_card(board, free_cells, ml_no_cards, ml_src)
         dst_card = get_dest_card(board, ml_dst)
 
+        # Store destination card for future reward calculation
+        self.dst_card = dst_card
+
         self.game.make_move((src_card, dst_card))
 
     # Returns list of index of all moves
@@ -32,9 +35,6 @@ class FreecellTranslator(AbstractTranslator):
         move_vectors = []
         for move in moves:
             src_card, dst_card = move
-            # Store destination card for future reward calculation
-            self.dst_card = dst_card
-
             cards_moved_vector, src_vector = get_source_card_vector(board, free_cells, src_card)
             dst_vector = get_dest_card_vector(board, dst_card)
 
