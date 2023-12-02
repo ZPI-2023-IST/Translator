@@ -12,6 +12,9 @@ class FreecellTranslator(AbstractTranslator):
             "n_actions": len(self.all_moves)
         }
 
+        # Store destination card for future reward calculation
+        self.dst_card = None
+
     def make_move(self, move):
         ml_no_cards, ml_src, ml_dst = self.all_moves_rev[move]
         board, free_cells, _ = self.game.get_board()
@@ -29,6 +32,9 @@ class FreecellTranslator(AbstractTranslator):
         move_vectors = []
         for move in moves:
             src_card, dst_card = move
+            # Store destination card for future reward calculation
+            self.dst_card = dst_card
+
             cards_moved_vector, src_vector = get_source_card_vector(board, free_cells, src_card)
             dst_vector = get_dest_card_vector(board, dst_card)
 
@@ -60,7 +66,10 @@ class FreecellTranslator(AbstractTranslator):
         elif state.value == State.LOST.value:
             return -5
         else:
-            return 0
+            if self.dst_card == CARD_LOCATIONS.HEAP.value:
+                return 1
+            else:
+                return 0   
     
     def get_config_model(self):
         return self.config_model
