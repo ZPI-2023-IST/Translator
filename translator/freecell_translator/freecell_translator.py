@@ -60,7 +60,47 @@ class FreecellTranslator(AbstractTranslator):
         elif state.value == State.LOST.value:
             return -5
         else:
-            return 0
+            # How reward is calculated
+            # 1st - calculate number of cards in the heap / number of all cards (52) * 5 (scaling so that value is between 0-5)
+            #
+            # 2nd - calculate how deep are cards located / maximal depth score possible * 5 (scaling so that value is between 0-5)
+            # If card is behind 2 other cards its depth is equal to 3
+            # If cards is in sensible order e.g. 3 of h 2 of c 1 of h than overall depth is equal to 1
+            # If cards are in order 4 of h 3 of h 2 of c 1 of h than overall depth is equal to 5 (1 sensible order + 4 of h is 4th)
+            # NOTE - if sensible order is not on front than it does not count
+            # 
+            # Reward = 1st - 2nd (reward is in range -5 to 5)
+            board, _, heap = self.game.get_board()
+
+            # Calculate the number of cards in the heap
+            no_cards_heap = 0
+            for card in heap:
+                if card is not None:
+                    no_cards_heap += card.rank
+
+            # Scaling the reward
+            no_cards_heap = no_cards_heap / NO_ALL_CARDS * 5
+
+            card_depth_sum = 0
+            for col in board:
+                rev_col = list(reversed(col))
+
+                # Check where the sensible order ends
+                no_cards_end_order = 0
+                for i in range(len(col)-1):
+                    if not rev_col[i].is_smaller_and_different_color(rev_col[i+1]):
+                        break
+
+                    no_cards_end_order += 1
+
+                # Calculate depth for all cards outside sensible order
+                for i in range(no_cards_end_order, len(col)):
+                    # Brackets added for better undestanding of what is added to card_depth_sum
+                    card_depth_sum = card_depth_sum + (i - no_cards_end_order + 1)
+
+            card_depth_sum = card_depth_sum / MAX_DEPTH_SUM * 5
+
+            return no_cards_heap - card_depth_sum
     
     def get_config_model(self):
         return self.config_model
