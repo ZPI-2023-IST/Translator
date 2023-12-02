@@ -10,10 +10,6 @@ SIZE_BOARD = (8, 19, 17)
 SIZE_FREE_CELL = (4, 17)
 SIZE_HEAP = (4, 17)
 
-# Used for scaling the reward
-NO_ALL_CARDS = 52
-MAX_DEPTH_SUM = 196
-
 class CARD_LOCATIONS(Enum):
     COLUMN = "C"
     FREE_CELL = "F"
